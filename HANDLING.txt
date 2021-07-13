@@ -1,0 +1,628 @@
+CREATE DATABASE HANDLING5
+USE HANDLING5
+
+create table Aircraft
+(Tail_Number varchar(6) primary key, 
+Model varchar(30), 
+Departure_Date date,
+Departure_Time time)
+
+create table Staff
+(ID int primary key, 
+Post varchar(15), 
+Qualification varchar(2), 
+Latname varchar(30) not null, 
+Name_ varchar(30) not null, 
+Patronymic varchar(30))
+
+create table Ground_Service
+(ID int primary key, 
+Name_ varchar(50) not null,
+Number_of_Operations int default 0)
+
+create table Crew
+(ID int primary key,
+Post varchar(30) not null,
+Lastname varchar(30) not null,
+Name_ varchar(30) not null,
+Patronymic varchar(30),
+Flying_Hours int default 0 not null,
+Flying_Hours_Month int default 0,
+Salary int default 0)
+
+create table Crew_Type
+(ID int primary key,
+Type_ varchar(8) not null,
+Rank_ int,
+Wage int default 0)
+
+create table Cabinbook
+(ID int primary key,
+Tail_Number_Aircraft varchar(6) references Aircraft(Tail_Number),
+Note varchar(100),
+Date_ date,
+Time_ time,
+Lastname varchar(30))
+
+create table Conclusion
+(ID_Staff int references Staff(ID), 
+Tail_Number_Aircraft varchar(6) references Aircraft(Tail_Number), 
+Permission varchar(3) not null, 
+Date_ date, 
+Time_ time, 
+Lastname varchar(30),
+Initials varchar(5))
+
+create table Logbook
+(ID int primary key,
+Tail_Number_Aircraft varchar(6) references Aircraft(Tail_Number),
+Flight_Number varchar(6) not null,
+Note varchar(100),
+Date_ date,
+Time_ time,
+Lastname varchar(30))
+
+create table Equipment
+(ID int primary key,
+Name_ varchar(50))
+
+create table ID_Logbook_ID_Equipment
+(ID_Logbook int references Logbook(ID),
+ID_Equipment int references Equipment(ID))
+
+create table Food
+(ID_Equipment int references Equipment(ID),
+Code varchar(4),
+Count_ int default 0)
+
+create table Fuel
+(ID_Equipment int references Equipment(ID),
+Name_ varchar(30) not null,
+Weight_ int not null)
+
+create table Operation
+(ID int primary key,
+ID_Ground_service int references Ground_Service(ID),
+Name_ varchar(50) not null,
+Type_ varchar(20))
+
+create table ID_Cabinbook_ID_Crew_Type
+(ID_Cabinbook int references Cabinbook(ID),
+ID_Crew_Type int references Crew_Type(ID))
+
+create table ID_Logbook_ID_Operation
+(ID_Logbook int references Logbook(ID),
+ID_Operation int references Operation(ID))
+
+create table ID_Staff_ID_Operation
+(ID_Staff int references Staff(ID),
+ID_Operation int references Operation(ID))
+
+create table ID_Crew_Type_ID_Crew
+(ID_Crew_Type int references Crew_Type(ID),
+ID_Crew int references Crew(ID))
+
+create table ID_Crew_ID_Logbook
+(ID_Crew int references Crew(ID),
+ID_Logbook int references Logbook(ID))
+
+insert into Aircraft values 
+	('VP-BRF', 'Boing 737-800', null, null),
+	('VP-BBC', 'Airbus 320', '10-10-20', '15:15'), 	
+	('VQ-BFY', 'Airbus 359', '11-10-20', '16:45'),
+	('VP-BDO','Airbus 319','11-10-20', '17:25'),
+	('VP-BAY','Boing 767-300','12-10-20', '20:00')
+insert into Aircraft(Tail_Number, Model)values 
+	('VQ-BTS', 'Boing 747-300'),
+	('VQ-BTP', 'Airbus 320'),
+	('VP-BRC', 'Airbus 319')
+
+insert into Crew values
+	('1', 'Командир ВС', 'Филиппов', 'Олег', 'Олегович', '3500', '77', '385000'),
+	('2', 'Второй пилот', 'Сенякин', 'Андрей', 'Юрьевич', '3000', '83', '415000'),
+	('3', 'Командир ВС', 'Павеленко', 'Михаил', 'Александрович', '11500', '74', '370000'),
+	('4', 'Второй пилот', 'Пронин', 'Дмитрий', 'Сергеевич', '6500', '69', '345000'),
+	('5', 'Командир ВС', 'Мухамметдинов', 'Шамиль', 'Альбертович', '12000', '89', '445000'),
+	('6', 'Второй пилот', 'Рыльков', 'Кирилл', 'Васильевич', '5500', '86', '430000'),
+	('7', 'Старший бортпроводник', 'Ниязова', 'Валентина', 'Семёновна', '4500', '78', '163800'),
+	('8', 'Бортпроводник', 'Куренков', 'Степан', 'Петрович', '1200', '63', '50400'),
+	('9', 'Бортпроводник', 'Белозёрова', 'Юлия', 'Константиновна', '1800', '66', '52800'),
+	('10', 'Старший бортпроводник', 'Захарова', 'Татьяна', 'Юрьевна', '3700', '71', '149100'),
+	('11', 'Бортпроводник', 'Юсупова', 'Мария', 'Витальевна', '2000', '80', '112000'),
+	('12', 'Бортпроводник', 'Гольцман', 'Евгения', 'Маратовна', '1900', '83', '66400'),
+	('13', 'Старший бортпроводник', 'Шишкова', 'Елизавета', 'Игоревна', '4800', '77', '161700'),
+	('14', 'Бортпроводник', 'Носиков', 'Виталий', 'Романович', '2200', '82', '114800'),
+	('15', 'Бортпроводник', 'Мицюк', 'Дарья', 'Витальевна', '2500', '88', '123200')
+
+insert into Logbook values
+	('1346', 'VP-BRF', 'YT-442', 'Неисправная работа вариометра', '10-10-20', '8:14', 'Филиппов'),
+	('4679', 'VP-BDO', 'BR-778', 'Неисправная работа системы кондиционирования', '11-10-20', '15:15', 'Павеленко')
+insert into Logbook(ID, Tail_Number_Aircraft, Flight_Number) values
+	('2457', 'VP-BBC', 'HY-676'),
+	('3568', 'VQ-BFY', 'FR-310'),
+	('5780','VP-BAY','UF-755')
+
+insert into ID_Crew_ID_Logbook values
+	('1','1346'), ('2','1346'), ('3','2457'),
+	('4','2457'), ('5','4679'), ('6','4679'),
+	('1','3568'), ('2','3568'), ('3','5780'),
+	('4','5780'),
+	('7', '1346'), ('8', '1346'), ('9', '1346'), 
+	('10', '2457'), ('11', '2457'), ('12', '2457'), 
+	('13', '4679'), ('14', '4679'), ('15', '4679'), 
+	('7', '3568'), ('8', '3568'), ('9', '3568'),
+	('10', '5780'), ('11', '5780'), ('12', '5780')
+	
+insert into Crew_Type values
+	('1', 'Лётный', null, '5000'), ('2', 'Кабинный', '1', '2100'), ('3', 'Кабинный', '2', '1400'), ('4', 'Кабинный', '3', '800')
+
+insert into Equipment values
+	('1','Авиапитание'), ('2', 'Топливо'), ('3', 'Бортимущество')
+
+insert into ID_logbook_ID_Equipment values
+	('1346', '1'), ('1346', '2'),
+	('2457', '1'), ('2457', '2'), ('2457', '3'),
+	('3568', '1'), ('3568', '2'),
+	('4679', '1'), ('4679', '2'),
+	('5780', '2')
+
+insert into Fuel values
+	('2', 'TC-1', '10000'),
+	('2', 'JET A-1', '20000'),
+	('2', 'T-6', '15000'),
+	('2', 'T-3', '17000')
+
+insert into Food values 
+	('1', 'BBML', '600'),
+	('1', 'FSML', '2000'),
+	('1', 'KSML', '1500'),
+	('1', 'SPML', '1900'),
+	('1', 'VGML', '300')
+
+insert into Staff values
+	('1', 'Техник', 'C', 'Чинилин', 'Алексей', 'Евгеньевич'),
+	('2', 'Механик', 'B1', 'Ключников', 'Пётр', 'Петрович'),
+	('3', 'Механик', 'B2', 'Городецкий', 'Роман', 'Колыванович'),
+	('4', 'Техник', 'A', 'Рязанов', 'Михаил', 'Андреевич'),
+	('5', 'Механик', 'B2', 'Харитонов', 'Роман', 'Павлович'),
+	('6', 'Механик', 'B2', 'Тикус', 'Юрий', 'Александрович'),
+	('7', 'Техник', 'A', 'Лобов', 'Игнат', 'Леонидович'),
+	('8', 'Механик', 'С', 'Гуськов', 'Анатолий', 'Сергеевич'),
+	('9', 'Механик', 'A', 'Добрынин', 'Николай', 'Савельевич'),
+	('10', 'Техник', 'A', 'Хорошавин', 'Андрей', 'Григорьевич'),
+	('11', 'Механик', 'A', 'Шевчук', 'Георгий', 'Никитович'),
+	('12', 'Грузчик', null, 'Сальников', 'Никита', 'Николаевич'),
+	('13', 'Грузчик', null, 'Плотников', 'Олег', 'Федорович'),
+	('14', 'Грузчик', null, 'Коротков', 'Вячеслав', 'Валерьевич'),
+	('15', 'Клинер', null, 'Риятова', 'Карина', 'Михайловна'),
+	('16', 'Клинер', null, 'Норкина', 'Мария', 'Викторовна')
+
+insert into Conclusion values
+	('1', 'VP-BRF', 'NO', '10-10-20', '9:00', 'Чинилин', 'А. Е.'),
+	('2', 'VP-BBC', 'YES', '10-10-20', '14:45', 'Ключников', 'П. П.'),
+	('3', 'VQ-BFY', 'YES', '11-10-20', '16:15', 'Городецкий', 'Р. К.'),
+	('4', 'VP-BDO', 'YES', '11-10-20', '16:55', 'Рязанов', 'М. А.'),
+	('5', 'VP-BAY', 'YES', '12-10-20', '19:30', 'Харитонов', 'Р. П.')
+
+insert into Ground_Service values 
+	('1', 'Наземное обслуживание ВС', '4'),
+	('2', 'Инженерно-авиационное обеспечение', '1'),
+	('3', 'Технический контроль', '1'),
+	('4', 'Бытовое обслуживание ВС', '1'),
+	('5', 'Аккумуляторная зарядная станция', '2')
+
+insert into Operation values
+	('1', '1', 'Обработка санузлов', null),
+	('2', '1', 'Заправка авиатопливом', null),
+	('3', '1', 'Загрузка багажа', null),
+	('4', '3', 'Зарядка сжатыми газами', 'Дополнительно'),
+	('5', '5', 'Обеспечение наземным источником электропитания', 'Дополнительно'),
+	('6', '1', 'Буксировка', null),
+	('8', '4', 'Внутренняя уборка', null),
+	('9', '5', 'Установка заземления', null),
+	('10', '2', 'Предоставление персонала для оказания тех. помощи', 'Дополнительно')
+
+insert into ID_Logbook_ID_Operation values
+	('1346', '1'), ('1346', '4'), ('1346', '5'), ('1346', '6'), ('1346', '8'), ('1346', '9'), ('1346', '10'),
+	('2457', '1'), ('2457', '2'), ('2457', '3'), ('2457', '6'), ('2457', '8'), ('2457', '9'),
+	('3568', '1'), ('3568', '2'), ('3568', '3'), ('3568', '6'), ('3568', '8'), ('3568', '9'),
+	('4679', '1'), ('4679', '2'), ('4679', '6'), ('4679', '8'), ('4679', '9'), ('4679', '10'),
+	('5780', '1'), ('5780', '2'), ('5780', '3'), ('5780', '6'), ('5780', '8'), ('5780', '9')
+
+insert into ID_Staff_ID_Operation values
+	('1', '4'), ('1', '5'), ('1', '9'), 
+	('2', '4'), ('2', '5'), ('2', '9'), ('2', '10'), 
+	('3', '4'), ('3', '5'), ('3', '9'), ('3', '10'), 
+	('4', '4'), ('4', '5'), ('4', '9'), 
+	('5', '4'), ('5', '5'), ('5', '9'), ('5', '10'), 
+	('6', '4'), ('6', '5'), ('6', '9'), ('6', '10'), 
+	('7', '4'), ('7', '5'), ('7', '9'), 
+	('8', '4'), ('8', '5'), ('8', '9'), ('8', '10'), 
+	('9', '4'), ('9', '5'), ('9', '9'), ('9', '10'), 
+	('10', '4'), ('10', '5'), ('10', '9'), 
+	('11', '4'), ('11', '5'), ('11', '9'), ('11', '10'), 
+	('12', '2'), ('12', '3'), ('12', '6'),
+	('13', '2'), ('13', '3'), ('13', '6'),
+	('14', '2'), ('14', '3'), ('14', '6'),
+	('15', '1'), ('15', '8'),
+	('16', '1'), ('16', '8')
+
+insert into ID_Crew_Type_ID_Crew values 
+	('1', '1'), ('1', '2'), ('1', '3'), ('1', '4'), ('1', '5'), ('1', '6'),
+	('2', '8'), ('2', '11'), ('2', '14'),
+	('3', '9'), ('3', '12'), ('3', '15'),
+	('4', '7'), ('4', '10'), ('4', '13')
+
+insert into Cabinbook values
+	('1458', 'VP-BRF', 'Неисправность подлокотника места 19А', '10-10-20', '8:55', 'Куренков')
+insert into Cabinbook(ID, Tail_Number_Aircraft) values
+	('2569', 'VP-BDO'),
+	('3670', 'VP-BBC'),
+	('4781', 'VQ-BFY'),
+	('5892', 'VP-BAY')
+
+insert into ID_Cabinbook_ID_Crew_Type values
+	('1458', '2'), ('1458', '3'), ('1458', '4'),
+	('2569', '2'), ('2569', '3'), ('2569', '4'),
+	('3670', '2'), ('3670', '3'), ('3670', '4'),
+	('4781', '2'), ('4781', '3'), ('4781', '4'),
+	('5892', '2'), ('5892', '3'), ('5892', '4')
+
+
+	GO
+	CREATE TRIGGER Change_Number_of_Operations_I ON Operation
+	AFTER INSERT
+	AS
+	DECLARE @ID_O int;
+	BEGIN
+		SET @ID_O = (SELECT ID_Ground_service FROM inserted);
+		UPDATE Ground_Service SET Number_of_Operations += 1 WHERE ID = @ID_O;
+	END
+
+	GO
+	CREATE TRIGGER Change_Number_of_Operations_U ON Operation
+	AFTER UPDATE
+	AS
+	DECLARE @ID_GS_Old int, @ID_GS_New int; 
+	BEGIN
+	SET @ID_GS_Old = (SELECT ID_Ground_service FROM deleted);
+	SET @ID_GS_New = (SELECT ID_Ground_service FROM inserted);
+		BEGIN
+		UPDATE Ground_Service SET Number_of_Operations -= 1 WHERE ID = @ID_GS_Old;
+		UPDATE Ground_Service SET Number_of_Operations += 1 WHERE ID = @ID_GS_New;
+		END
+	END
+
+	GO
+	CREATE TRIGGER Change_Number_of_Operations_D ON Operation
+	AFTER DELETE
+	AS
+	DECLARE @ID_O int;
+	BEGIN
+		SET @ID_O = (SELECT ID_Ground_service FROM deleted);
+		UPDATE Ground_Service SET Number_of_Operations -= 1 WHERE ID = @ID_O;
+	END
+
+
+
+
+
+	GO
+	CREATE TRIGGER Equipment_Cascade_D on Equipment
+	INSTEAD OF DELETE
+    	AS
+	BEGIN
+		DELETE Food FROM Food JOIN deleted ON deleted.ID = Food.ID_Equipment
+		DELETE Fuel FROM Fuel JOIN deleted ON deleted.ID = Fuel.ID_Equipment
+		DELETE ID_Logbook_ID_Equipment FROM ID_Logbook_ID_Equipment JOIN deleted ON deleted.ID = ID_Logbook_ID_Equipment.ID_Equipment
+		DELETE Equipment FROM Equipment JOIN deleted ON deleted.ID = Equipment.ID
+	END
+
+
+
+
+
+
+	GO
+	CREATE TRIGGER Type_Change_I ON Crew
+	AFTER INSERT
+	AS
+	DECLARE @Fl_hours int, @ID int, @Post varchar(30);
+	BEGIN
+	SET @Post = (SELECT Post FROM inserted)
+	SET @ID = (SELECT ID FROM inserted)
+	IF (@Post = 'Бортпроводник') OR (@Post = 'Cтарший бортпроводник')
+	BEGIN
+		SET @Fl_hours =(SELECT Flying_Hours FROM inserted)
+		IF ((@Fl_hours > 30) AND (@Fl_hours < 2000))
+			INSERT INTO ID_Crew_Type_ID_Crew VALUES ('4', @ID);
+		ELSE IF ((@Fl_hours >= 2000) AND (@Fl_hours < 3000))
+			INSERT INTO ID_Crew_Type_ID_Crew VALUES ('3', @ID);
+		ELSE IF (@Fl_hours >= 3000)
+			INSERT INTO ID_Crew_Type_ID_Crew VALUES ('2', @ID);
+		ELSE 
+		BEGIN 
+			RAISERROR ('Недопустимо маленькое количество часов налёта!',1,1);
+			ROLLBACK TRANSACTION
+		END
+	END
+	ELSE INSERT INTO ID_Crew_Type_ID_Crew VALUES ('1', @ID)
+	END
+	
+	GO
+	CREATE TRIGGER Type_Change_U ON Crew
+	AFTER UPDATE
+	AS
+	DECLARE @Fl_hours int, @ID int, @Post varchar(30);
+	BEGIN
+	SET @Post = (SELECT Post FROM inserted)
+	IF @Post = 'Бортпроводник' OR @Post = 'Старший бортпроводник'
+	BEGIN
+		SET @ID = (SELECT ID FROM inserted)
+		SET @Fl_hours = (SELECT Flying_Hours FROM inserted)
+		IF @Fl_hours > 30 AND @Fl_hours < 2000
+			UPDATE ID_Crew_Type_ID_Crew SET ID_Crew_Type = '4' WHERE ID_Crew = @ID;
+		ELSE IF  @Fl_hours >= 2000 AND @Fl_hours < 3000
+			UPDATE ID_Crew_Type_ID_Crew SET ID_Crew_Type = '3' WHERE ID_Crew = @ID;
+		ELSE IF (@Fl_hours >= 3000)
+			UPDATE ID_Crew_Type_ID_Crew SET ID_Crew_Type = '2' WHERE ID_Crew = @ID;
+		ELSE 
+		BEGIN 
+			RAISERROR ('Недопустимо маленькое количество часов налёта!',1,1);
+			ROLLBACK TRANSACTION
+		END
+	END
+	END
+
+	GO
+	CREATE TRIGGER Type_Change_D ON Crew
+	INSTEAD OF DELETE
+	AS
+	DECLARE @ID int;
+	BEGIN
+	SET @ID = (SELECT ID FROM deleted)
+	BEGIN
+	DELETE FROM ID_Crew_Type_ID_Crew WHERE ID_Crew = @ID; 
+	DELETE FROM Crew WHERE ID = @ID; 
+	END
+	END
+
+
+
+
+
+
+	GO
+	CREATE TRIGGER Time_of_Conclusion_I_U ON Conclusion
+	AFTER INSERT, UPDATE
+	AS
+	DECLARE @Tail_Number varchar(6), @Conclusion_Time Time, @Departure_Date Date, @Permission varchar(3);
+	BEGIN
+	SET @Tail_Number = (SELECT Tail_Number_Aircraft FROM inserted);
+	SET @Conclusion_Time = (SELECT Time_ FROM inserted);
+	SET @Departure_Date = (SELECT Date_ FROM inserted);
+	SET @Permission = (SELECT Permission FROM inserted);
+	IF @Permission = 'YES'
+		BEGIN
+		UPDATE Aircraft SET Departure_Time = DATEADD(MINUTE, 30, @Conclusion_Time) WHERE Tail_Number = @Tail_Number;
+		UPDATE Aircraft SET Departure_Date = @Departure_Date WHERE Tail_Number = @Tail_Number;
+		END
+	ELSE 
+		BEGIN
+		UPDATE Aircraft SET Departure_Time = NULL WHERE Tail_Number = @Tail_Number;
+		UPDATE Aircraft SET Departure_Date = NULL WHERE Tail_Number = @Tail_Number;
+		RAISERROR ('Воздушное судно не имеет разрешения на вылет!',1,1);
+		END
+	END
+
+
+
+
+
+
+	GO
+	CREATE TRIGGER Create_Initials_I_U ON Conclusion
+	AFTER INSERT, UPDATE
+	AS
+	DECLARE @ID int,  @Lastname varchar(30), @Name varchar(30), @Patronymic varchar(30);
+	BEGIN
+	SET @ID = (SELECT ID_Staff FROM inserted);
+	SET @Lastname = (SELECT Latname FROM Staff WHERE ID = @ID);
+	SET @Name = (SELECT Name_ FROM Staff WHERE ID = @ID);
+	SET @Patronymic = (SELECT Patronymic FROM Staff WHERE ID = @ID);
+		BEGIN
+		UPDATE Conclusion SET Initials = CONCAT(LEFT(@Name,1),'.',' ',LEFT(@Patronymic,1),'.'), Lastname = @Lastname WHERE ID_Staff = @ID;
+		END
+	END
+
+
+	GO
+	EXEC sp_settriggerorder 'Time_of_Conclusion_I_U', 'first', 'insert'
+	EXEC sp_settriggerorder 'Create_Initials_I_U', 'last', 'insert'
+	EXEC sp_settriggerorder 'Time_of_Conclusion_I_U', 'first', 'update'
+	EXEC sp_settriggerorder 'Create_Initials_I_U', 'last', 'update'
+
+
+
+	GO
+	CREATE TRIGGER Salary_Calculation_I_U ON Crew
+	AFTER INSERT, UPDATE
+	AS
+	DECLARE @ID int, @Fl_hours_m int, @Wage int, @Crew_Type int;
+	BEGIN
+	SET @ID = (SELECT ID FROM inserted);
+	SET @Fl_hours_m = (SELECT Flying_Hours_Month FROM inserted);
+	SET @Wage = (SELECT Wage FROM Crew_Type AS C_T JOIN ID_Crew_Type_ID_Crew AS A ON C_T.ID = A.ID_Crew_Type WHERE A.ID_Crew = @ID);
+	SET @Crew_Type = (SELECT ID_Crew_Type FROM ID_Crew_Type_ID_Crew WHERE ID_Crew = @ID);
+		BEGIN
+		UPDATE Crew SET Salary = (@Fl_hours_m * @Wage) WHERE ID = @ID;
+		END
+	END
+
+	GO
+	EXEC sp_settriggerorder 'Type_Change_I', 'first', 'insert'
+	EXEC sp_settriggerorder 'Salary_Calculation_I_U', 'last', 'insert'
+	EXEC sp_settriggerorder 'Type_Change_U', 'first', 'update'
+	EXEC sp_settriggerorder 'Salary_Calculation_I_U', 'last', 'update'
+
+	GO
+	CREATE FUNCTION show_best()
+	RETURNS TABLE
+	AS
+	RETURN (SELECT TOP 4 Lastname, Name_ AS Name, Patronymic, Crew_Type.ID AS ID_Type, Type_ AS Type_name, Rank_ AS Class, Flying_Hours_Month 
+	FROM Crew 
+	JOIN ID_Crew_Type_ID_Crew ON ID_Crew_Type_ID_Crew.ID_Crew = Crew.ID
+	JOIN Crew_Type ON Crew_Type.ID = ID_Crew_Type_ID_Crew.ID_Crew_Type
+	ORDER BY ROW_NUMBER() OVER(PARTITION BY Crew_type.ID ORDER BY Flying_Hours_Month DESC))
+
+	GO
+	CREATE FUNCTION check_right_date(@Departure_date date, @Note1 varchar(100), @Note_date1 date, @Note2 varchar(100), @Note_date2 date)
+	RETURNS varchar(100)
+	AS 
+	BEGIN
+	DECLARE @msg varchar(100) = 'Все даты введены верно.';
+	IF CONVERT(date, @Departure_date) < CONVERT(date, GETDATE()) SET @msg = 'Ошибка в дате вылета.'
+	ELSE IF @Note1 IS NULL AND @Note_date1 IS NOT NULL SET @msg = 'Запись в Logbook не существует.'
+	ELSE IF @Note1 IS NOT NULL AND (@Note_date1 IS NULL OR (CONVERT(date, @Note_date1) > CONVERT(date, GETDATE())))
+			BEGIN
+			SET @msg = ' Дата записи в Logbook неверная или не существует.'
+			END
+	ELSE IF @Note2 IS NULL AND  @Note_date2 IS NOT NULL SET @msg = 'Запись в Cabinbook не существует.'
+	ELSE IF @Note2 IS NOT NULL AND  (@Note_date2 IS NULL OR (CONVERT(date, @Note_date2) > CONVERT(date, GETDATE())))
+			BEGIN
+			SET @msg = ' Дата записи в Cabinbook неверная или не существует.'
+			END
+	RETURN @msg  
+	END
+
+	
+	GO
+	CREATE FUNCTION check_right_time(@Departure_time time, @Note1 varchar(100), @Note_time1 time, @Note2 varchar(100), @Note_time2 time, @msg varchar(100))
+	RETURNS varchar(100)
+	AS 
+	BEGIN
+	IF @msg = 'Все даты введены верно.'
+	BEGIN
+	IF CONVERT(time, @Departure_time) < CONVERT(time, GETDATE()) SET @msg = 'Ошибка во времени вылета.'
+	ELSE IF @Note1 IS NULL AND @Note_time1 IS NOT NULL SET @msg = 'Запись в Logbook не существует.'
+	ELSE IF @Note1 IS NOT NULL AND (@Note_time1 IS NULL OR (CONVERT(time, @Note_time1) >= CONVERT(time, GETDATE())))
+			BEGIN
+			SET @msg = 'Время записи в Logbook неверное или не существует.'
+			END
+	ELSE IF @Note2 IS NULL AND @Note_time2 IS NOT NULL SET @msg = 'Запись в Cabinbook не существует.'
+	ELSE IF @Note2 IS NOT NULL AND (@Note_time2 IS NULL OR (CONVERT(time, @Note_time2) >= CONVERT(time, GETDATE()))) 
+			BEGIN
+			SET @msg = 'Время записи в Cabinbook неверное или не существует.'
+			END
+	ELSE SET @msg = 'Все время введено верно.'
+	END
+	RETURN @msg
+	END
+
+	
+	GO
+	CREATE FUNCTION check_right_line(@Tail_Number varchar(6), @Flight_Number varchar(6), @Note1 varchar(100),
+	@Lastname1 varchar(30), @Note2 varchar(100), @Lastname2 varchar(30), @msg varchar(100))
+	RETURNS varchar(100)
+	AS 
+	BEGIN
+	IF @msg = 'Все время введено верно.'
+	BEGIN
+	IF @Tail_Number NOT LIKE '%[A-Z][A-Z]-[A-Z][A-Z][A-Z]%' SET @msg = 'Ошибка в регистрационном номере.' 
+	ELSE IF @Flight_Number NOT LIKE '%[A-Z][A-Z]-[0-9][0-9][0-9]%' SET @msg = 'Ошибка в номере рейса.' 
+	ELSE IF @Note1 IS NULL AND @Lastname1 IS NOT NULL SET @msg = 'Запись в Logbook не существует.' 
+	ELSE IF @Note1 IS NOT NULL AND (@Lastname1 IS NULL OR @Lastname1 NOT LIKE '%[а-яА-Я]%') 
+		BEGIN
+		SET @msg = 'Ошибка в фамилии в записи Logbook'
+		END
+	ELSE IF @Note2 IS NULL AND @Lastname2 IS NOT NULL SET @msg = 'Запись в Cabinbook не существует.'
+	ELSE IF @Note2 IS NOT NULL AND (@Lastname2 IS NULL OR @Lastname2 NOT LIKE '%[а-яА-Я]%')
+		BEGIN
+		SET @msg = 'Ошибка в фамилии в записи Cabinbook'
+		END
+	ELSE SET @msg = 'Все данные успешно внесены.'
+	END
+	RETURN @msg
+	END
+
+	GO
+	CREATE PROCEDURE Add_Aircraft 
+           @Tail_number		     varchar(6), 
+	   @Flight_Number	     varchar(6),
+           @model		     varchar(30),
+	   @Departure_date	     date,
+	   @Departure_time           time,
+	   @Logbook_ID               int,
+	   @Logbook_Note_date        date,
+	   @Logbook_Note_time        time,
+	   @Logbook_Note             varchar(100),
+	   @Logbook_Lastname         varchar(30),
+	   @Cabinbook_ID             int,
+	   @Cabinbook_Note           varchar(100),
+	   @Cabinbook_Note_Date      date,
+	   @Cabinbook_Note_Time      time,
+	   @Cabinbook_Lastname       varchar(30)
+	AS 
+	BEGIN 
+		 SET NOCOUNT ON;
+		 BEGIN TRY
+		 BEGIN TRANSACTION
+		 DECLARE @message VARCHAR(100);
+		 SET @message = dbo.check_right_date(@Departure_date, @Logbook_Note, @Logbook_Note_date, @Cabinbook_Note, @Cabinbook_Note_Date)
+		 SET @message = dbo.check_right_time(@Departure_time, @Logbook_Note, @Logbook_Note_time, @Cabinbook_Note, @Cabinbook_Note_Time, @message)
+		 SET @message = dbo.check_right_line(@Tail_number, @Flight_Number, @Logbook_Note, @Logbook_Lastname, @Cabinbook_Note, @Cabinbook_Lastname, @message)
+		 IF @message <> 'Все данные успешно внесены.' SELECT @message
+		 ELSE 
+		 BEGIN
+		 INSERT INTO Aircraft(Tail_number, model, Departure_date, Departure_time) 
+		 VALUES (@Tail_number, @model, @Departure_date, @Departure_time) 
+
+		 INSERT INTO Logbook(ID, Tail_Number_Aircraft, Flight_Number,Date_, Time_, Lastname, Note) 
+		 VALUES (@Logbook_ID, @Tail_number, @Flight_Number, @Logbook_Note_date, @Logbook_Note_time, @Logbook_Lastname, @Logbook_Note) 
+
+		 INSERT INTO Cabinbook(ID, Tail_Number_Aircraft, Date_, Time_, Note, Lastname) 
+		 VALUES (@Cabinbook_ID, @Tail_number, @Cabinbook_Note_Date, @Cabinbook_Note_Time, @Cabinbook_Note, @Cabinbook_Lastname) 
+		 END
+		 COMMIT TRANSACTION;
+		 END TRY
+		 
+		 BEGIN CATCH
+		 declare
+			@errMsg nvarchar(4000) = ERROR_MESSAGE(),
+			@errLine int = ERROR_LINE();
+		 IF @@TRANCOUNT > 0
+			ROLLBACK TRANSACTION;
+		 RAISERROR('%s at %d', 16, 1, @errMsg, @errLine);
+		 END CATCH
+	END 
+
+	GO
+	CREATE PROCEDURE show_worst
+	AS
+	BEGIN
+	SELECT Post, Lastname, Name_, Patronymic, Flying_Hours, 
+		(SELECT AVG(Flying_Hours) FROM Crew) AS Average, 
+		Flying_Hours - (SELECT AVG(Flying_Hours) FROM Crew) AS Difference FROM Crew 
+		WHERE (Flying_Hours - (SELECT AVG(Flying_Hours) FROM Crew)) < 0 ORDER BY Difference
+	END
+
+	GO
+	CREATE PROCEDURE show_deleted(@Day date, @time_1 time, @time2 time)
+	AS
+	BEGIN
+	SELECT X.Flight_Number, X.Departure_Date, X.Departure_Time FROM 
+		(SELECT * FROM Logbook 
+		JOIN Aircraft ON Logbook.Tail_Number_Aircraft = Aircraft.Tail_Number
+		WHERE Departure_Date = @Day AND 
+		Departure_Time BETWEEN @time_1 AND @time2) X;
+	END
+
+
+	GO
+	CREATE PROCEDURE show_senior (@Flight_number varchar(6), @Lastname varchar(20) OUTPUT)
+	AS
+	BEGIN
+	SELECT @Lastname = Conclusion.Lastname FROM Conclusion WHERE Tail_Number_Aircraft = 
+	(SELECT Tail_Number FROM Aircraft WHERE Tail_Number = 
+	(SELECT Tail_Number_Aircraft FROM Logbook WHERE Flight_Number = @Flight_number))
+	END
