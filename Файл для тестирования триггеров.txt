@@ -1,0 +1,132 @@
+	SELECT * FROM Operation
+	SELECT * FROM Ground_Service
+
+	INSERT INTO Operation VALUES ('7', '3', 'Противооблединительная защита', 'Дополнительно')
+
+	SELECT * FROM Operation
+	SELECT * FROM Ground_Service
+
+	UPDATE Operation SET ID_Ground_service = 4 WHERE ID = 1 
+
+	SELECT * FROM Operation
+	SELECT * FROM Ground_Service
+
+	DELETE FROM Operation WHERE ID = '7'
+	
+	SELECT * FROM Operation
+	SELECT * FROM Ground_Service
+
+
+
+
+
+
+	SELECT * FROM Equipment
+	SELECT * FROM Fuel
+	SELECT * FROM ID_Logbook_ID_Equipment
+
+	DELETE FROM Equipment WHERE ID = 2
+
+	SELECT * FROM Equipment
+	SELECT * FROM Fuel
+	SELECT * FROM ID_Logbook_ID_Equipment
+
+
+
+
+	SELECT Tail_Number, Permission, Departure_Date, Conclusion.Time_ as Conclusion_Time, Departure_Time  FROM Aircraft
+	JOIN Conclusion ON Conclusion.Tail_Number_Aircraft = Aircraft.Tail_Number
+
+	INSERT INTO Conclusion(ID_Staff, Tail_Number_Aircraft, Permission, Date_, Time_) VALUES 
+	('6', 'VQ-BTS', 'YES', '27-10-20', '17:35'),
+	('7', 'VQ-BTP', 'NO', '27-10-20', '13:20')
+
+	SELECT Tail_Number, Permission, Departure_Date, Conclusion.Time_ as Conclusion_Time, Departure_Time FROM Aircraft
+	JOIN Conclusion ON Conclusion.Tail_Number_Aircraft = Aircraft.Tail_Number
+	
+	UPDATE Conclusion SET Time_ = '16:00', Permission = 'YES' WHERE Tail_Number_Aircraft = 'VQ-BTP'
+
+	SELECT Tail_Number, Permission, Departure_Date, Conclusion.Time_ as Conclusion_Time, Departure_Time FROM Aircraft
+	JOIN Conclusion ON Conclusion.Tail_Number_Aircraft = Aircraft.Tail_Number
+	
+
+
+
+
+
+
+
+	SELECT Tail_Number, Permission, Departure_Date, Conclusion.Time_ as Conclusion_Time, Departure_Time, Lastname, Initials FROM Aircraft
+	JOIN Conclusion ON Conclusion.Tail_Number_Aircraft = Aircraft.Tail_Number
+
+	INSERT INTO Conclusion(ID_Staff, Tail_Number_Aircraft, Permission, Date_, Time_) VALUES ('8', 'VP-BRC', 'YES', '02-11-20', '14:25')
+
+	SELECT Tail_Number, Permission, Departure_Date, Conclusion.Time_ as Conclusion_Time, Departure_Time, Lastname, Initials FROM Aircraft
+	JOIN Conclusion ON Conclusion.Tail_Number_Aircraft = Aircraft.Tail_Number
+
+	UPDATE Conclusion SET ID_Staff = 9 WHERE ID_Staff = 8 AND Tail_Number_Aircraft = 'VP-BRC'
+
+	SELECT Tail_Number, Permission, Departure_Date, Conclusion.Time_ as Conclusion_Time, Departure_Time, Lastname, Initials FROM Aircraft
+	JOIN Conclusion ON Conclusion.Tail_Number_Aircraft = Aircraft.Tail_Number
+	
+
+	
+	
+	
+	
+	
+	SELECT Crew.ID, Post, Lastname, Name_, Patronymic, Flying_Hours, Rank_ FROM Crew 
+	JOIN ID_Crew_Type_ID_Crew ON ID_Crew_Type_ID_Crew.ID_Crew = Crew.ID
+	JOIN Crew_Type ON Crew_Type.ID = ID_Crew_Type_ID_Crew.ID_Crew_Type
+    ORDER BY ID
+
+	INSERT INTO Crew(ID, Post, Lastname, Name_, Patronymic, Flying_Hours, Flying_Hours_Month) VALUES
+	('16', 'Командир ВС', 'Дегтерев', 'Роман', 'Евгеньевич', '7000', '80'),
+	('17', 'Бортпроводник', 'Шварц', 'Нильс', 'Генрихович', '2900', '85')
+
+	SELECT Crew.ID, Post, Lastname, Name_, Patronymic, Flying_Hours, Rank_ FROM Crew 
+	JOIN ID_Crew_Type_ID_Crew ON ID_Crew_Type_ID_Crew.ID_Crew = Crew.ID
+	JOIN Crew_Type ON Crew_Type.ID = ID_Crew_Type_ID_Crew.ID_Crew_Type
+	ORDER BY ID
+	
+	UPDATE Crew SET Flying_Hours = 3000 WHERE ID = 15 OR ID = 17
+
+	SELECT Crew.ID, Lastname, Name_, Patronymic, Flying_Hours, Rank_ FROM Crew 
+	JOIN ID_Crew_Type_ID_Crew ON ID_Crew_Type_ID_Crew.ID_Crew = Crew.ID
+	JOIN Crew_Type ON Crew_Type.ID = ID_Crew_Type_ID_Crew.ID_Crew_Type
+	ORDER BY ID
+	
+	DELETE FROM Crew WHERE ID = 16 OR ID = 17
+
+	SELECT Crew.ID, Lastname, Name_, Patronymic, Flying_Hours, Rank_ FROM Crew 
+	JOIN ID_Crew_Type_ID_Crew ON ID_Crew_Type_ID_Crew.ID_Crew = Crew.ID
+	JOIN Crew_Type ON Crew_Type.ID = ID_Crew_Type_ID_Crew.ID_Crew_Type
+	ORDER BY ID
+	SELECT * FROM ID_Crew_Type_ID_Crew
+	
+	
+
+
+
+
+
+	SELECT Crew.ID, Lastname, Name_, Patronymic, Rank_, Flying_Hours, Flying_Hours_Month, Wage, Salary FROM Crew 
+	JOIN ID_Crew_Type_ID_Crew ON ID_Crew_Type_ID_Crew.ID_Crew = Crew.ID
+	JOIN Crew_Type ON Crew_Type.ID = ID_Crew_Type_ID_Crew.ID_Crew_Type 
+	ORDER BY ID
+
+	INSERT INTO Crew(ID, Post, Lastname, Name_, Patronymic, Flying_Hours, Flying_Hours_Month) VALUES
+	('16', 'Командир ВС', 'Дегтерев', 'Роман', 'Евгеньевич', '7000', '80'),
+	('17', 'Бортпроводник', 'Шварц', 'Нильс', 'Генрихович', '2900', '85')
+
+	SELECT Crew.ID, Lastname, Name_, Patronymic, Rank_, Flying_Hours, Flying_Hours_Month, Wage, Salary FROM Crew 
+	JOIN ID_Crew_Type_ID_Crew ON ID_Crew_Type_ID_Crew.ID_Crew = Crew.ID
+	JOIN Crew_Type ON Crew_Type.ID = ID_Crew_Type_ID_Crew.ID_Crew_Type 
+	ORDER BY ID
+
+	UPDATE Crew SET Flying_Hours = 3000 WHERE ID = 17 OR ID = 15 
+
+	SELECT Crew.ID, Lastname, Name_, Patronymic, Rank_, Flying_Hours, Flying_Hours_Month, Wage, Salary FROM Crew 
+	JOIN ID_Crew_Type_ID_Crew ON ID_Crew_Type_ID_Crew.ID_Crew = Crew.ID
+	JOIN Crew_Type ON Crew_Type.ID = ID_Crew_Type_ID_Crew.ID_Crew_Type 
+	ORDER BY ID

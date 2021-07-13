@@ -1,0 +1,39 @@
+ 	SELECT * FROM show_best()
+
+
+
+	EXEC Add_Aircraft
+	   @Tail_number = 'VQ-GLV',			 
+	   @Flight_Number = 'RU-555',		
+           @model = 'Sukhoi Superjet 100',					
+	   @Departure_date = NULL,			
+	   @Departure_time = NULL,       
+	   @Logbook_ID = 9999,
+	   @Logbook_Note_date = '2020-11-21',    
+	   @Logbook_Note_time = '18:13',    
+	   @Logbook_Note = 'Неисправная работа датчика топлива',         
+	   @Logbook_Lastname = 'Башлачёв',         
+	   @Cabinbook_ID = 8452,            
+	   @Cabinbook_Note = 'Отломан крючок для одежды у места 7С', 
+	   @Cabinbook_Note_Date = '2020-11-21',
+	   @Cabinbook_Note_Time = '18:13',
+	   @Cabinbook_Lastname = 'Лапшичкин'
+	   SELECT * FROM Aircraft
+	   SELECT * FROM Logbook
+	   SELECT * FROM Cabinbook
+	SELECT * FROM Aircraft
+	SELECT * FROM Logbook
+	SELECT * FROM Cabinbook
+	
+
+	EXEC show_worst
+	
+
+
+	EXEC show_deleted @Day='2020-10-11', @time_1='16:00:00', @time2 = '18:00:00' 
+
+
+
+	DECLARE @Seniors_Lastname VARCHAR(20)
+	EXEC show_senior @Flight_Number = 'FR-310', @Lastname = @Seniors_Lastname OUTPUT
+	SELECT @Seniors_Lastname AS Lastname
